@@ -3,10 +3,12 @@
 namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+// use Gedmo\Mapping\Annotation as GEDMO;
+// use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Product
- *
  * @ORM\Table(name="products")
  * @ORM\Entity(repositoryClass="ApiBundle\Repository\ProductRepository")
  */
@@ -249,4 +251,3 @@ class Product
         return $this->updatedAt;
     }
 }
-
