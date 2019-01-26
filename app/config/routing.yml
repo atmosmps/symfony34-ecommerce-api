@@ -1,34 +1,9 @@
 api:
     resource: "@ApiBundle/Controller/"
-    # type:     annotation
+    type:     annotation
     prefix:   /api/v1/
     # defaults:
     #     _format: json
-
-product_index:
-    path: /api/v1/products
-    defaults: { _controller: ApiBundle:Product:index}
-    methods:  [GET]
-
-product_get:
-    path: /api/v1/products/{id}
-    defaults: { _controller: ApiBundle:Product:get}
-    methods:  [GET]
-
-product_save:
-    path: /api/v1/products
-    defaults: { _controller: ApiBundle:Product:save}
-    methods:  [POST]
-
-product_update:
-    path: /api/v1/products
-    defaults: { _controller: ApiBundle:Product:update}
-    methods:  [PUT]
-
-product_delete:
-    path: /api/v1/products/{id}
-    defaults: { _controller: ApiBundle:Product:delete}
-    methods:  [DELETE]
 
 app:
     resource: '@AppBundle/Controller/'
