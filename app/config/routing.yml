@@ -5,12 +5,12 @@ api:
     # defaults:
     #     _format: json
 
-api_product_index:
+product_index:
     path: /api/v1/products
     defaults: { _controller: ApiBundle:Product:index}
     methods:  [GET]
 
-product_get_action:
+product_get:
     path: /api/v1/products/{id}
     defaults: { _controller: ApiBundle:Product:get}
     methods:  [GET]
