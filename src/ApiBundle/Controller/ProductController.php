@@ -35,10 +35,7 @@ class ProductController extends Controller
         $product->setName($data['name']);
         $product->setDescription($data['description']);
         $product->setContent($data['content']);
-        $product->setSlug($data['slug']);
         $product->setPrice($data['price']);
-        $product->setCreatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
-        $product->setUpdatedAt(new \DateTime("now", new \DateTimeZone("America/Sao_Paulo")));
 
         $doctrine->persist($product);
         $doctrine->flush();
