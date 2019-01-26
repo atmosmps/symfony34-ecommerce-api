@@ -3,17 +3,16 @@
 namespace ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("")
      */
     public function indexAction()
     {
-        // return $this->render('ApiBundle:Default:index.html.twig');
-        return new JsonResponse(['msg' => 'Hello World!'], 200);
+        return new JsonResponse(["message" => "Ecommerce API REST - Symfony 3.4!"], 200);
     }
 }
