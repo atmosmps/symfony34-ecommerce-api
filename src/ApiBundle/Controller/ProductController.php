@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
         $productsData = $this->getDoctrine()->getRepository('ApiBundle:Product')->findAll();
         $products = $this->get('jms_serializer')->serialize($productsData, 'json');
-        return new Response($products);
+        return new Response($products, 200);
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function getAction(Product $product)
     {
         $product = $this->get('jms_serializer')->serialize($product, 'json');
-        return new Response($product);
+        return new Response($product, 200);
     }
 
     /**
