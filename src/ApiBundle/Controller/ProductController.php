@@ -63,8 +63,11 @@ class ProductController extends Controller
         return new JsonResponse(['msg' => 'Produto atualizado com sucesso!'], 200);
     }
 
-    public function deleteAction()
+    public function deleteAction(Product $product)
     {
-
+        $doctrine = $this->getDoctrine()->getManager();
+        $doctrine->remove($product);
+        $doctrine->flush();
+        return new JsonResponse(['msg' => 'Produto removido com sucesso!'], 200);
     }
 }

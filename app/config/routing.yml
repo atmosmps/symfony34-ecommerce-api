@@ -25,6 +25,11 @@ product_update:
     defaults: { _controller: ApiBundle:Product:update}
     methods:  [PUT]
 
+product_delete:
+    path: /api/v1/products/{id}
+    defaults: { _controller: ApiBundle:Product:delete}
+    methods:  [DELETE]
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
