@@ -3,7 +3,9 @@
 namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\Category;
+use ApiBundle\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +22,7 @@ class CategoryController extends Controller
      */
     public function indexAction()
     {
-        $categoriesData = $this->getDoctrine()->getRepository('ApiBundle:Product')->findAll();
+        $categoriesData = $this->getDoctrine()->getRepository('ApiBundle:Category')->findAll();
         $categories = $this->get('jms_serializer')->serialize($categoriesData, 'json');
         return new Response($categories, 200);
     }
@@ -38,11 +40,23 @@ class CategoryController extends Controller
 
     /**
      * @param Request $request
-     * @Route("", methods={"POST"}, name=""categories_post")
+     * @return Response
+     * @Route("", methods={"POST"}, name="categories_post")
      */
     public function saveAction(Request $request)
     {
+        $data = $request->request->all();
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->submit($data);
 
+        $doctrine = $this->getDoctrine()->getManager();
+        $doctrine->persist($category);
+        $doctrine->flush();
+
+        // $category = $this->get('jms_serializer')->serialize($category, 'json');
+
+        return new JsonResponse(["message" => "Categoria salva com sucesso."], 200);
     }
 
     public function updateAction(Request $request)
