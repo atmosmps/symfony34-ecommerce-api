@@ -42,4 +42,29 @@ class ProductController extends Controller
 
         return new JsonResponse(['msg' => 'Produto inserido com sucesso!'], 200);
     }
+
+    public function updateAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        $doctrine = $this->getDoctrine();
+        $manager = $doctrine->getManager();
+
+        $product = $doctrine->getRepository('ApiBundle:Product')->find($data['id']);
+
+        $product->setName($data['name']);
+        $product->setDescription($data['description']);
+        $product->setContent($data['content']);
+        $product->setPrice($data['price']);
+
+        $manager->persist($product);
+        $manager->flush();
+
+        return new JsonResponse(['msg' => 'Produto atualizado com sucesso!'], 200);
+    }
+
+    public function deleteAction()
+    {
+
+    }
 }

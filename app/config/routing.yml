@@ -20,6 +20,11 @@ product_save:
     defaults: { _controller: ApiBundle:Product:save}
     methods:  [POST]
 
+product_update:
+    path: /api/v1/products
+    defaults: { _controller: ApiBundle:Product:update}
+    methods:  [PUT]
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
