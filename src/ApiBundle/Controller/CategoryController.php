@@ -47,6 +47,7 @@ class CategoryController extends Controller
     {
         $data = $request->request->all();
         $category = new Category();
+
         $form = $this->createForm(CategoryType::class, $category);
         $form->submit($data);
 
@@ -59,9 +60,29 @@ class CategoryController extends Controller
         return new JsonResponse(["message" => "Categoria salva com sucesso."], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @Route("", methods={"PUT"}, name="categories_put")
+     */
     public function updateAction(Request $request)
     {
+        $data = $request->request->all();
 
+        $category = $this->getDoctrine()->getRepository('ApiBundle:Category')->find($data['id']);
+
+        if (!$category) {
+            return $this->createNotFoundException('Category Not Found!');
+        }
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->submit($data);
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $doctrine->merge($category);
+        $doctrine->flush();
+
+        return new JsonResponse(["message" => "Categoria atualizada com sucesso."], 200);
     }
 
     /**
