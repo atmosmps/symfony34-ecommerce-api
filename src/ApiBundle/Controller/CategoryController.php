@@ -87,10 +87,14 @@ class CategoryController extends Controller
 
     /**
      * @param Category $category
+     * @return JsonResponse
      * @Route("/{id}", methods={"DELETE"}, name="categories_delete")
      */
     public function deleteAction(Category $category)
     {
-
+        $doctrine = $this->getDoctrine()->getManager();
+        $doctrine->remove($category);
+        $doctrine->flush();
+        return new JsonResponse(['message' => 'Categoria Removida com Sucesso!'], 200);
     }
 }
