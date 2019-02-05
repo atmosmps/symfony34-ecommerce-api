@@ -73,6 +73,11 @@ class Product
     private $updatedAt;
 
     /**
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Category", inversedBy="productCollection")
+     */
+    private $categoryCollection;
+
+    /**
      * Get id
      *
      * @return int

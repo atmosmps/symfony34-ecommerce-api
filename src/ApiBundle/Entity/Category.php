@@ -61,6 +61,16 @@ class Category
     private $updatedAt;
 
     /**
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Product", mappedBy="categoryCollection")
+     * @ORM\JoinTable(name="products_categories")
+     */
+    private $productCollection;
+
+    public function __construct()
+    {
+    }
+
+    /**
      * Get id
      *
      * @return int
