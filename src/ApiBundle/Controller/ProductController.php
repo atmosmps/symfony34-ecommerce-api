@@ -3,6 +3,7 @@
 namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\Product;
+use ApiBundle\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,10 +51,8 @@ class ProductController extends Controller
         $doctrine = $this->getDoctrine()->getManager();
 
         $product = new Product();
-        $product->setName($data['name']);
-        $product->setDescription($data['description']);
-        $product->setContent($data['content']);
-        $product->setPrice($data['price']);
+        $form = $this->createForm(ProductType::class, $product);
+        $form->submit($data);
 
         $doctrine->persist($product);
         $doctrine->flush();
@@ -63,7 +62,7 @@ class ProductController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @Route("", methods={"PUT"}, name="product_update")
      */
     public function updateAction(Request $request)
@@ -75,12 +74,14 @@ class ProductController extends Controller
 
         $product = $doctrine->getRepository('ApiBundle:Product')->find($data['id']);
 
-        $product->setName($data['name']);
-        $product->setDescription($data['description']);
-        $product->setContent($data['content']);
-        $product->setPrice($data['price']);
+        if (!$product) {
+            return $this->createNotFoundException('Product Not Found!');
+        }
 
-        $manager->persist($product);
+        $form = $this->createForm(ProductType::class, $product);
+        $form->submit($data);
+
+        $manager->merge($product);
         $manager->flush();
 
         return new JsonResponse(['msg' => 'Produto atualizado com sucesso!'], 200);
