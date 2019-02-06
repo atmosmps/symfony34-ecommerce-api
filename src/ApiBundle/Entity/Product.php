@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -76,6 +77,11 @@ class Product
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Category", inversedBy="productCollection")
      */
     private $categoryCollection;
+
+    public function __construct()
+    {
+        $this->categoryCollection = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -253,5 +259,25 @@ class Product
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryCollection()
+    {
+        return $this->categoryCollection;
+    }
+
+    /**
+     * @param mixed $categoryCollection
+     */
+    public function setCategoryCollection($categoryCollection)
+    {
+        if ($this->categoryCollection->contains($categoryCollection)) {
+            return;
+        }
+
+        $this->categoryCollection = $categoryCollection;
     }
 }
