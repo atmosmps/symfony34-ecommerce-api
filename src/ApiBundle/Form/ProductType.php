@@ -2,6 +2,7 @@
 
 namespace ApiBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,13 @@ class ProductType extends AbstractType
         $builder->add('name')
                 ->add('description')
                 ->add('content')
-                ->add('price');
+                ->add('price')
+                ->add('categoryCollection', EntityType::class, [
+                    'class' => 'ApiBundle\Entity\Category',
+                    'multiple' => true,
+                    'expanded' => true,
+                    'choice_label' => 'name'
+                ]);
     }
 
     /**

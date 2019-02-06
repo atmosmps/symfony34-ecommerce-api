@@ -63,7 +63,7 @@ class Category
 
     /**
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Product", mappedBy="categoryCollection")
-     * @ORM\JoinTable(name="products_categories")
+     * @ORM\JoinTable(name="products_categories") // This property is not applied in database.
      */
     private $productCollection;
 

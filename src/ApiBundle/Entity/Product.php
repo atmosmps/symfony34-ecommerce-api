@@ -278,6 +278,6 @@ class Product
             return;
         }
 
-        $this->categoryCollection = $categoryCollection;
+        $this->categoryCollection->add($categoryCollection);
     }
 }
