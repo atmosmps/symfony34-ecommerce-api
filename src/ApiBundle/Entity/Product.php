@@ -5,6 +5,7 @@ namespace ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Table(name="products")
@@ -18,6 +19,7 @@ class Product
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Groups({"index"})
      */
     private $id;
 
@@ -25,6 +27,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @JMS\Groups({"index"})
      */
     private $name;
 
@@ -32,6 +35,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
+     * @JMS\Groups({"index"})
      */
     private $description;
 
@@ -46,6 +50,7 @@ class Product
      * @var float
      *
      * @ORM\Column(name="price", type="float")
+     * @JMS\Groups({"index"})
      */
     private $price;
 
@@ -54,6 +59,7 @@ class Product
      *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      * @Gedmo\Slug(fields={"name"})
+     * @JMS\Groups({"index"})
      */
     private $slug;
 

@@ -4,6 +4,7 @@ namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\Product;
 use ApiBundle\Form\ProductType;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class ProductController extends Controller
     public function indexAction()
     {
         $productsData = $this->getDoctrine()->getRepository('ApiBundle:Product')->findAll();
-        $products = $this->get('jms_serializer')->serialize($productsData, 'json');
+        $products = $this->get('jms_serializer')->serialize($productsData, 'json', SerializationContext::create()->setGroups(['index']));
         return new Response($products, 200);
     }
 
@@ -35,7 +36,7 @@ class ProductController extends Controller
      */
     public function getAction(Product $product)
     {
-        $product = $this->get('jms_serializer')->serialize($product, 'json');
+        $product = $this->get('jms_serializer')->serialize($product, 'json', SerializationContext::setGroups(['index', 'single']));
         return new Response($product, 200);
     }
 
