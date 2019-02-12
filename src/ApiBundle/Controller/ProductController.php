@@ -25,7 +25,13 @@ class ProductController extends Controller
     public function indexAction()
     {
         $productsData = $this->getDoctrine()->getRepository('ApiBundle:Product')->findAll();
-        $products = $this->get('jms_serializer')->serialize($productsData, 'json', SerializationContext::create()->setGroups(['index']));
+
+        $products = $this->get('jms_serializer')->serialize(
+            $productsData,
+            'json',
+            SerializationContext::create()->setGroups(['prod_index'])
+        );
+
         return new Response($products, 200);
     }
 
@@ -36,7 +42,12 @@ class ProductController extends Controller
      */
     public function getAction(Product $product)
     {
-        $product = $this->get('jms_serializer')->serialize($product, 'json', SerializationContext::setGroups(['index', 'single']));
+        $product = $this->get('jms_serializer')->serialize(
+            $product,
+            'json',
+            SerializationContext::create()->setGroups(['prod_index', 'prod_single'])
+        );
+
         return new Response($product, 200);
     }
 
