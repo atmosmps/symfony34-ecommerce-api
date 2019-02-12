@@ -21,7 +21,7 @@ class Category
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @JMS\Groups({"prod_single"})
+     * @JMS\Groups({"prod_single", "cat_index"})
      */
     private $id;
 
@@ -29,7 +29,7 @@ class Category
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @JMS\Groups({"prod_single"})
+     * @JMS\Groups({"prod_single", "cat_index"})
      */
     private $name;
 
@@ -37,6 +37,7 @@ class Category
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
+     * @JMS\Groups({"cat_index"})
      */
     private $description;
 
@@ -45,6 +46,7 @@ class Category
      *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      * @Gedmo\Slug(fields={"name"})
+     * @JMS\Groups({"cat_index"})
      */
     private $slug;
 
@@ -67,6 +69,7 @@ class Category
     /**
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Product", mappedBy="categoryCollection")
      * @ORM\JoinTable(name="products_categories") // This property is not applied in database.
+     * @JMS\Groups({"cat_single"})
      */
     private $productCollection;
 

@@ -4,6 +4,7 @@ namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\Category;
 use ApiBundle\Form\CategoryType;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,13 @@ class CategoryController extends Controller
     public function indexAction()
     {
         $categoriesData = $this->getDoctrine()->getRepository('ApiBundle:Category')->findAll();
-        $categories = $this->get('jms_serializer')->serialize($categoriesData, 'json');
+
+        $categories = $this->get('jms_serializer')->serialize(
+            $categoriesData,
+            'json',
+            SerializationContext::create()->setGroups(['cat_index'])
+        );
+
         return new Response($categories, 200);
     }
 
@@ -34,7 +41,12 @@ class CategoryController extends Controller
      */
     public function getAction(Category $category)
     {
-        $category = $this->get('jms_seralizer')->serialize($category, 'json');
+        $category = $this->get('jms_serializer')->serialize(
+            $category,
+            'json',
+            SerializationContext::create()->setGroups(['cat_index', 'cat_single'])
+        );
+
         return new Response($category, 200);
     }
 

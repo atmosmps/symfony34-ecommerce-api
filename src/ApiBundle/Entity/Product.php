@@ -27,7 +27,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @JMS\Groups({"prod_index"})
+     * @JMS\Groups({"prod_index", "cat_single"})
      */
     private $name;
 
@@ -35,7 +35,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
-     * @JMS\Groups({"prod_index"})
+     * @JMS\Groups({"prod_index", "cat_single"})
      */
     private $description;
 
@@ -51,7 +51,7 @@ class Product
      * @var float
      *
      * @ORM\Column(name="price", type="float")
-     * @JMS\Groups({"prod_index"})
+     * @JMS\Groups({"prod_index", "cat_single"})
      */
     private $price;
 
@@ -60,7 +60,7 @@ class Product
      *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      * @Gedmo\Slug(fields={"name"})
-     * @JMS\Groups({"prod_index"})
+     * @JMS\Groups({"prod_index", "cat_single"})
      */
     private $slug;
 
