@@ -27,6 +27,7 @@ class ProductController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $pageCurrent = $request->get('page', 1);
         $productsData = $this->getDoctrine()
                             ->getRepository('ApiBundle:Product')
                             ->findAllProducts();
@@ -34,7 +35,7 @@ class ProductController extends Controller
         $adapter = new DoctrineORMAdapter($productsData);
         $pagerFanta = new Pagerfanta($adapter);
         $pagerFanta->setMaxPerPage(3);
-        $pagerFanta->setCurrentPage($request->get('page', 1));
+        $pagerFanta->setCurrentPage($pageCurrent);
 
         $products = [];
         foreach ($pagerFanta->getCurrentPageResults() as $p) {
@@ -44,8 +45,32 @@ class ProductController extends Controller
         $data = [
             'data' => $products,
             'total' => $pagerFanta->getNbResults(),
-            'count' => count($products)
+            'count' => count($products),
+            'page' => $request->get('page')
         ];
+
+        $route = 'product_index';
+        $routeParams = [];
+        $generateUrlPagination = function ($page) use ($route, $routeParams) {
+            return $this->generateUrl($route, array_merge(
+                ['page' => $page],
+                $routeParams
+            ));
+        };
+
+        $data['_links'] = [
+            'self' => $generateUrlPagination($pageCurrent),
+            'first' => $generateUrlPagination(1),
+            'last' => $generateUrlPagination($pagerFanta->getNbPages())
+        ];
+
+        if ($pagerFanta->hasPreviousPage()) {
+            $data['_links']['prev'] = $generateUrlPagination($pagerFanta->getPreviousPage());
+        }
+
+        if ($pagerFanta->hasNextPage()) {
+            $data['_links']['next'] = $generateUrlPagination($pagerFanta->getNextPage());
+        }
 
         $products = $this->get('jms_serializer')
                         ->serialize(
