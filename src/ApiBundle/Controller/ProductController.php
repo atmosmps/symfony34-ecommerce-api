@@ -5,6 +5,8 @@ namespace ApiBundle\Controller;
 use ApiBundle\Entity\Product;
 use ApiBundle\Form\ProductType;
 use JMS\Serializer\SerializationContext;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,18 +21,38 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends Controller
 {
     /**
+     * @param Request $request
      * @return Response
      * @Route("", methods={"GET"}, name="product_index")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $productsData = $this->getDoctrine()->getRepository('ApiBundle:Product')->findAll();
+        $productsData = $this->getDoctrine()
+                            ->getRepository('ApiBundle:Product')
+                            ->findAllProducts();
 
-        $products = $this->get('jms_serializer')->serialize(
-            $productsData,
-            'json',
-            SerializationContext::create()->setGroups(['prod_index'])
-        );
+        $adapter = new DoctrineORMAdapter($productsData);
+        $pagerFanta = new Pagerfanta($adapter);
+        $pagerFanta->setMaxPerPage(3);
+        $pagerFanta->setCurrentPage($request->get('page', 1));
+
+        $products = [];
+        foreach ($pagerFanta->getCurrentPageResults() as $p) {
+            $products[] = $p;
+        }
+
+        $data = [
+            'data' => $products,
+            'total' => $pagerFanta->getNbResults(),
+            'count' => count($products)
+        ];
+
+        $products = $this->get('jms_serializer')
+                        ->serialize(
+                            $data,
+                            'json',
+                            SerializationContext::create()->setGroups(['prod_index'])
+                        );
 
         return new Response($products, 200);
     }

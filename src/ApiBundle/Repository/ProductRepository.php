@@ -10,4 +10,8 @@ namespace ApiBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllProducts()
+    {
+        return $this->createQueryBuilder('p');
+    }
 }
