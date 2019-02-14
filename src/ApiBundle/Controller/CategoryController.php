@@ -37,7 +37,7 @@ class CategoryController extends Controller
             SerializationContext::create()->setGroups(['cat_index'])
         );
 
-        return new Response($categories, 200);
+        return new Response($categories, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
@@ -53,7 +53,7 @@ class CategoryController extends Controller
             SerializationContext::create()->setGroups(['cat_index', 'cat_single'])
         );
 
-        return new Response($category, 200);
+        return new Response($category, 200, ['Content-Type' => 'application/json']);
     }
 
     /**

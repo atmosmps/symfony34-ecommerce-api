@@ -38,7 +38,7 @@ class ProductController extends Controller
                             SerializationContext::create()->setGroups(['prod_index'])
                         );
 
-        return new Response($products, 200);
+        return new Response($products, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
@@ -54,7 +54,7 @@ class ProductController extends Controller
             SerializationContext::create()->setGroups(['prod_index', 'prod_single'])
         );
 
-        return new Response($product, 200);
+        return new Response($product, 200, ['Content-Type' => 'application/json']);
     }
 
     /**

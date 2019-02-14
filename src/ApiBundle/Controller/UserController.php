@@ -33,7 +33,7 @@ class UserController extends Controller
         $users = $this->get('jms_serializer')
                     ->serialize($data, 'json');
 
-        return new Response($users, 200);
+        return new Response($users, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
@@ -44,7 +44,7 @@ class UserController extends Controller
     public function getAction(User $user)
     {
         $user = $this->get('jms_seralizer')->serialize($user, 'json');
-        return new Response($user, 200);
+        return new Response($user, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
