@@ -38,10 +38,12 @@ class PaginationFactory
             'page' => $request->get('page')
         ];
 
+        $routeParams = array_merge($request->query->all(), $routeParams);
+
         $generateUrlPagination = function ($page) use ($route, $routeParams) {
             return $this->router->generate($route, array_merge(
-                ['page' => $page],
-                $routeParams
+                $routeParams,
+                ['page' => $page]
             ));
         };
 
