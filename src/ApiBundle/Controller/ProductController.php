@@ -29,7 +29,8 @@ class ProductController extends Controller
                             ->getRepository('ApiBundle:Product')
                             ->findAllProducts();
 
-        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')->paginate($productsData, $request);
+        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
+            ->paginate($productsData, $request, 'product_index');
 
         $products = $this->get('jms_serializer')
                         ->serialize(

@@ -29,7 +29,8 @@ class CategoryController extends Controller
                             ->getRepository('ApiBundle:Category')
                             ->findAllCategories();
 
-        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')->paginate($categoriesData, $request);
+        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
+            ->paginate($categoriesData, $request, 'categories_index');
 
         $categories = $this->get('jms_serializer')->serialize(
             $data,

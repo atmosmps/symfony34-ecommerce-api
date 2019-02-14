@@ -17,7 +17,7 @@ class PaginationFactory
         $this->router = $router;
     }
 
-    public function paginate(QueryBuilder $queryBuilder, Request $request)
+    public function paginate(QueryBuilder $queryBuilder, Request $request, $route, $routeParams = [])
     {
         $pageCurrent = $request->get('page', 1);
 
@@ -38,8 +38,6 @@ class PaginationFactory
             'page' => $request->get('page')
         ];
 
-        $route = 'product_index';
-        $routeParams = [];
         $generateUrlPagination = function ($page) use ($route, $routeParams) {
             return $this->router->generate($route, array_merge(
                 ['page' => $page],

@@ -28,7 +28,8 @@ class UserController extends Controller
                         ->getRepository('ApiBundle:User')
                         ->findAllUsers();
 
-        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')->paginate($usersData, $request);
+        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
+                    ->paginate($usersData, $request, 'users_index');
 
         $users = $this->get('jms_serializer')
                     ->serialize($data, 'json');
