@@ -25,19 +25,21 @@ class ProductController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $search = $request->get('search', '');
+
         $productsData = $this->getDoctrine()
-                            ->getRepository('ApiBundle:Product')
-                            ->findAllProducts();
+                             ->getRepository('ApiBundle:Product')
+                             ->findAllProducts($search);
 
         $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
-            ->paginate($productsData, $request, 'product_index');
+                     ->paginate($productsData, $request, 'product_index');
 
         $products = $this->get('jms_serializer')
-                        ->serialize(
+                         ->serialize(
                             $data,
                             'json',
                             SerializationContext::create()->setGroups(['prod_index'])
-                        );
+                         );
 
         return new Response($products, 200, ['Content-Type' => 'application/json']);
     }
