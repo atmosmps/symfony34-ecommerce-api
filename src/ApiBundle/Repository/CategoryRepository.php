@@ -10,8 +10,15 @@ namespace ApiBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllCategories()
+    public function findAllCategories($search = '')
     {
-        return $this->createQueryBuilder('c');
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        if ($search) {
+            $queryBuilder->andWhere('c.name LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $queryBuilder;
     }
 }

@@ -24,9 +24,11 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $search = $request->get('search', '');
+
         $usersData = $this->getDoctrine()
                         ->getRepository('ApiBundle:User')
-                        ->findAllUsers();
+                        ->findAllUsers($search);
 
         $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
                     ->paginate($usersData, $request, 'users_index');

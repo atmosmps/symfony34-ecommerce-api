@@ -25,9 +25,11 @@ class CategoryController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $search = $request->get('search', '');
+
         $categoriesData = $this->getDoctrine()
                             ->getRepository('ApiBundle:Category')
-                            ->findAllCategories();
+                            ->findAllCategories($search);
 
         $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
             ->paginate($categoriesData, $request, 'categories_index');
