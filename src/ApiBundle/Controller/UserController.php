@@ -19,11 +19,20 @@ class UserController extends Controller
 {
     /**
      * @Route("", methods={"GET"}, name="users_index")
+     * @param Request $request
+     * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $usersData = $this->getDoctrine()->getRepository('ApiBundle:User')->findAll();
-        $users = $this->get('jms_serializer')->serialize($usersData, 'json');
+        $usersData = $this->getDoctrine()
+                        ->getRepository('ApiBundle:User')
+                        ->findAllUsers();
+
+        $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')->paginate($usersData, $request);
+
+        $users = $this->get('jms_serializer')
+                    ->serialize($data, 'json');
+
         return new Response($users, 200);
     }
 
