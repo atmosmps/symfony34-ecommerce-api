@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Category
@@ -30,6 +31,7 @@ class Category
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @JMS\Groups({"prod_single", "cat_index"})
+     * @Assert\NotBlank(message="This is a required field.")
      */
     private $name;
 
@@ -38,6 +40,7 @@ class Category
      *
      * @ORM\Column(name="description", type="string", length=255)
      * @JMS\Groups({"cat_index"})
+     * @Assert\NotBlank(message="This is a required field.")
      */
     private $description;
 

@@ -78,9 +78,8 @@ class ProductController extends Controller
         $form = $this->createForm(ProductType::class, $product);
         $form->submit($data);
 
-        $erros = $this->getErros($form);
-
         if (!$form->isValid()) {
+            $erros = $this->getErros($form);
             $validation = [
                 'type' => 'validation',
                 'description' => 'Validação de Dados',
@@ -116,6 +115,17 @@ class ProductController extends Controller
 
         $form = $this->createForm(ProductType::class, $product);
         $form->submit($data);
+
+        if (!$form->isValid()) {
+            $erros = $this->getErros($form);
+            $validation = [
+                'type' => 'validation',
+                'description' => 'Validação de Dados',
+                'erros' => $erros
+            ];
+
+            return new JsonResponse($validation);
+        }
 
         $manager->merge($product);
         $manager->flush();
