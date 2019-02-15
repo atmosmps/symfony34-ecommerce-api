@@ -4,6 +4,7 @@ namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\Product;
 use ApiBundle\Form\ProductType;
+use ApiBundle\Traits\FormErrorValidator;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends Controller
 {
+    use FormErrorValidator;
+
     /**
      * @param Request $request
      * @return Response
@@ -74,6 +77,18 @@ class ProductController extends Controller
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->submit($data);
+
+        $erros = $this->getErros($form);
+
+        if (!$form->isValid()) {
+            $validation = [
+                'type' => 'validation',
+                'description' => 'Validação de Dados',
+                'erros' => $erros
+            ];
+
+            return new JsonResponse($validation);
+        }
 
         $doctrine->persist($product);
         $doctrine->flush();

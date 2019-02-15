@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="products")
@@ -28,6 +29,7 @@ class Product
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @JMS\Groups({"prod_index", "cat_single"})
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -36,6 +38,7 @@ class Product
      *
      * @ORM\Column(name="description", type="string", length=255)
      * @JMS\Groups({"prod_index", "cat_single"})
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -44,6 +47,7 @@ class Product
      *
      * @ORM\Column(name="content", type="text")
      * @JMS\Groups({"prod_single"})
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -52,6 +56,7 @@ class Product
      *
      * @ORM\Column(name="price", type="float")
      * @JMS\Groups({"prod_index", "cat_single"})
+     * @Assert\NotBlank()
      */
     private $price;
 
