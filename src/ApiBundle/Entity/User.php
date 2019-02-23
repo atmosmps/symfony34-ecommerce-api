@@ -257,6 +257,7 @@ class User implements UserInterface
 
     public function setRoles($role)
     {
+        // $role ? '' : $role = 'ROLE_USER'; // se não houver papel definido. Seta automaticamente uma ROLE_USER para o usuário;
         $this->roles = $role;
     }
 
