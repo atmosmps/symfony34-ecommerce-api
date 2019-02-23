@@ -30,14 +30,14 @@ class UserController extends Controller
         $search = $request->get('search', '');
 
         $usersData = $this->getDoctrine()
-                        ->getRepository('ApiBundle:User')
-                        ->findAllUsers($search);
+                          ->getRepository('ApiBundle:User')
+                          ->findAllUsers($search);
 
         $data = $this->get('ApiBundle\Service\Pagination\PaginationFactory')
-                    ->paginate($usersData, $request, 'users_index');
+                     ->paginate($usersData, $request, 'users_index');
 
         $users = $this->get('jms_serializer')
-                    ->serialize($data, 'json');
+                      ->serialize($data, 'json');
 
         return new Response($users, 200, ['Content-Type' => 'application/json']);
     }
@@ -97,6 +97,7 @@ class UserController extends Controller
         $data = $request->request->all();
 
         $user = $this->getDoctrine()->getRepository('ApiBundle:User')->find($data['id']);
+        unset($data['id']); // este unset está aqui por conta da validação que não permite campos extras; então é preciso limpar o id antes.
 
         if (!$user) {
             return $this->createNotFoundException('User Not Found!');
