@@ -58,6 +58,14 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="roles", type="string", length=255)
+     * @Assert\NotBlank(message="This is a required field.")
+     */
+    private $roles;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -240,11 +248,16 @@ class User implements UserInterface
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return (Role|string)[] The user roles
+     * @return array (Role|string)[] The user roles
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return !$this->roles ? [] : explode(',', $this->roles);
+    }
+
+    public function setRoles($role)
+    {
+        $this->roles = $role;
     }
 
     /**
