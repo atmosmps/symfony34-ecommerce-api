@@ -5,6 +5,7 @@ namespace ApiBundle\Controller;
 use ApiBundle\Entity\User;
 use ApiBundle\Form\UserType;
 use ApiBundle\Traits\FormErrorValidator;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,11 @@ class UserController extends Controller
                      ->paginate($usersData, $request, 'users_index');
 
         $users = $this->get('jms_serializer')
-                      ->serialize($data, 'json');
+                      ->serialize(
+                          $data,
+                          'json',
+                          SerializationContext::create()->setGroups(['user_index'])
+                      );
 
         return new Response($users, 200, ['Content-Type' => 'application/json']);
     }
@@ -49,8 +54,15 @@ class UserController extends Controller
      */
     public function getAction(User $user)
     {
-        $user = $this->get('jms_seralizer')->serialize($user, 'json');
+        $user = $this->get('jms_serializer')
+                     ->serialize(
+                         $user,
+                         'json',
+                         SerializationContext::create()->setGroups(['user_index'])
+                     );
+
         return new Response($user, 200, ['Content-Type' => 'application/json']);
+
     }
 
     /**
