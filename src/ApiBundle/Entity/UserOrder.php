@@ -44,10 +44,9 @@ class UserOrder
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="orders")
      */
-    private $userId;
+    private $user;
 
 
     /**

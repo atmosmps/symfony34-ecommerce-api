@@ -89,6 +89,11 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\UserOrder", mappedBy="userId")
+     */
+    private $orders;
+
 
     /**
      * Get id
