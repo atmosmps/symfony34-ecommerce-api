@@ -34,6 +34,7 @@ security:
 
     access_control:
         - {path: ^/ecommerce/api/v1, role: ROLE_USER, methods: ['GET']}
+        - {path: ^/ecommerce/api/v1/checkout, role: ROLE_USER, methods: ['POST']}
         - {path: ^/ecommerce/api/v1, role: ROLE_ADMIN, methods: ['POST', 'PUT', 'DELETE']}
 
     role_hierarchy:
