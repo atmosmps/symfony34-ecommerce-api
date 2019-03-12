@@ -34,4 +34,22 @@ class CheckoutController extends Controller
 
         return new JsonResponse(['msg' => $userOrder->getId()], 200);
     }
+
+    /**
+     * @Route("/session", methods={"GET"}, name="checkout_session")
+     */
+    public function session()
+    {
+        try {
+            $sessionCode = \PagSeguro\Services\Session::create(
+                \PagSeguro\Configuration\Configure::getAccountCredentials()
+            );
+
+            // echo "<strong>ID de sess&atilde;o criado: </strong>{$sessionCode->getResult()}";
+            return new JsonResponse(['session_id' => $sessionCode->getResult()]);
+
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage());
+        }
+    }
 }
