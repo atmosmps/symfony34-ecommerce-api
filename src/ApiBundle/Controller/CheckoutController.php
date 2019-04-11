@@ -3,6 +3,7 @@
 namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\UserOrder;
+use ApiBundle\Service\Payment\Factory\BuildMethod;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,16 @@ class CheckoutController extends Controller
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($userOrder);
         $manager->flush();
+
+        $payment = BuildMethod::build($data['method'], \PagSeguro\Configuration\Configure::getAccountCredentials());
+
+        if ($data['method'] == 'CREDIT_CARD') {
+            $payment->tokenCard = $data['token'];
+            $payment->installments = $data['installments'];
+        }
+
+        $payment->hashUser = $data['hash'];
+        $payment->order = $userOrder;
 
         return new JsonResponse(['msg' => $userOrder->getId()], 200);
     }
