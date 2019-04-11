@@ -23,23 +23,26 @@ class CreditCard extends Method
 
         // Set a reference code for this payment request. It is useful to identify this payment
         // in future notifications.
-        $creditCard->setReference("NL - " . $this->order->id); //nexonlab
+        $creditCard->setReference("NL - " . $this->order->id); // NL - nexonlab
 
         // Set the currency
         $creditCard->setCurrency("BRL");
 
-        // Add an item for this payment request
-        $creditCard->addItems()->withParameters(
-            '0001',
-            'Notebook prata',
-            2,
-            10.00
-        );
+        foreach (unserialize($this->order->getItems()) as $i) {
+            // Add an item for this payment request
+            $creditCard->addItems()->withParameters(
+                $i['id'],
+                $i['name'],
+                1,
+                $i['price']
+            );
+        }
 
         // Set your customer information.
         // If you using SANDBOX you must use an email @sandbox.pagseguro.com.br
-        $creditCard->setSender()->setName('João Comprador');
-        $creditCard->setSender()->setEmail('email@comprador.com.br');
+        $userName = $this->order->getUser()->getFirstName() . ' - ' . $this->order->getUser()->getLastName();
+        $creditCard->setSender()->setName($userName);
+        $creditCard->setSender()->setEmail('email@sandbox.pagseguro.com.br'); // em ambiente de sandbox eu preciso obrigatoriamente passar este email
         $creditCard->setSender()->setPhone()->withParameters(
             11,
             56273440
@@ -47,10 +50,10 @@ class CreditCard extends Method
 
         $creditCard->setSender()->setDocument()->withParameters(
             'CPF',
-            'insira um numero de CPF valido'
+            '79507445021'
         );
 
-        $creditCard->setSender()->setHash('d94d002b6998ca9cd69092746518e50aded5a54aef64c4877ccea02573694986');
+        $creditCard->setSender()->setHash($this->hashUser);
 
         $creditCard->setSender()->setIp('127.0.0.0');
 
@@ -83,7 +86,8 @@ class CreditCard extends Method
 
         // Set the installment quantity and value (could be obtained using the Installments
         // service, that have an example here in \public\getInstallments.php)
-        $creditCard->setInstallment()->withParameters(1, '30.00');
+        $installment = explode('|', $this->installments);
+        $creditCard->setInstallment()->withParameters($installment[0], $installment[1]);
 
         // Set the credit card holder information
         $creditCard->setHolder()->setBirthdate('01/10/1979');
@@ -105,7 +109,7 @@ class CreditCard extends Method
         // in future notifications.
         //Get the crendentials and register the boleto payment
         $result = $creditCard->register(
-            \PagSeguro\Configuration\Configure::getAccountCredentials()
+            $this->credentials
         );
 
         return $result;

@@ -22,30 +22,33 @@ class Boleto extends Method
         /**
          * @todo Change the receiver Email
          */
-        $boleto->setReceiverEmail('vendedor@lojamodelo.com.br');
+        $boleto->setReceiverEmail('atmos.mps@gmail.com');
 
         // Set the currency
         $boleto->setCurrency("BRL");
 
-        // Add an item for this payment request
-        $boleto->addItems()->withParameters(
-            '0001',
-            'Notebook prata',
-            2,
-            130.00
-        );
+        foreach (unserialize($this->order->getItems()) as $i) {
+            // Add an item for this payment request
+            $boleto->addItems()->withParameters(
+                $i['id'],
+                $i['name'],
+                1,
+                $i['price']
+            );
+        }
 
         // Set a reference code for this payment request. It is useful to identify this payment
         // in future notifications.
-        $boleto->setReference("LIBPHP000001-boleto");
+        $boleto->setReference("NL - " . $this->order->id); // NL - nexonlab
 
         //set extra amount
-        $boleto->setExtraAmount(11.5);
+        // $boleto->setExtraAmount(11.5);
 
         // Set your customer information.
         // If you using SANDBOX you must use an email @sandbox.pagseguro.com.br
-        $boleto->setSender()->setName('João Comprador');
-        $boleto->setSender()->setEmail('email@comprador.com.br');
+        $userName = $this->order->getUser()->getFirstName() . ' - ' . $this->order->getUser()->getLastName();
+        $boleto->setSender()->setName($userName);
+        $boleto->setSender()->setEmail('email@sandbox.pagseguro.com.br'); // em ambiente de sandbox eu preciso obrigatoriamente passar este email
         $boleto->setSender()->setPhone()->withParameters(
             11,
             56273440
@@ -56,7 +59,7 @@ class Boleto extends Method
             'insira um numero de CPF valido'
         );
 
-        $boleto->setSender()->setHash('3dc25e8a7cb3fd3104e77ae5ad0e7df04621caa33e300b27aeeb9ea1adf1a24f');
+        $boleto->setSender()->setHash($this->hashUser);
 
         $boleto->setSender()->setIp('127.0.0.0');
 
@@ -77,7 +80,7 @@ class Boleto extends Method
 
         //Get the crendentials and register the boleto payment
         $result = $boleto->register(
-            \PagSeguro\Configuration\Configure::getAccountCredentials()
+            $this->credentials
         );
 
         return $result;
