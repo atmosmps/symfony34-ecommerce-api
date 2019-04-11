@@ -42,6 +42,7 @@ class CheckoutController extends Controller
 
         $payment->hashUser = $data['hash'];
         $payment->order = $userOrder;
+        $payment->proccess();
 
         return new JsonResponse(['msg' => $userOrder->getId()], 200);
     }
