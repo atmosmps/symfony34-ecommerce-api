@@ -2,7 +2,7 @@
 namespace ApiBundle\Service\Payment\Pagseguro\Method;
 
 
-class Boleto
+class Boleto extends Method
 {
     private $credentials;
 

@@ -2,7 +2,7 @@
 namespace ApiBundle\Service\Payment\Pagseguro\Method;
 
 
-class CreditCard
+class CreditCard extends Method
 {
     private $credentials;
 
@@ -23,7 +23,7 @@ class CreditCard
 
         // Set a reference code for this payment request. It is useful to identify this payment
         // in future notifications.
-        $creditCard->setReference("LIBPHP000001");
+        $creditCard->setReference("NL - " . $this->order->id); //nexonlab
 
         // Set the currency
         $creditCard->setCurrency("BRL");
