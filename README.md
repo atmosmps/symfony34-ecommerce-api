@@ -13,7 +13,7 @@ A Symfony project created on January 6, 2019, 2:16 pm.
 6. Autenticação com JWT
 7. Access Control List (ACL)
 8. Checkout Transparente de Pagamentos com Pagseguro
+9. Ambiente integrado com Docker usando *generator* criado através do [okty](https://okty.io/)
 
-*OBS: para realizar os testes de pagamento foi utilizado um frontend de teste, que pode ser encontrado no seguinte repositório:*
-
+OBS: para realizar os testes de pagamento foi utilizado um frontend de teste, que pode ser encontrado no seguinte repositório:
 [https://github.com/CodeExpertsLearning/pagseguro-front-teste-checkout-transparente.git](https://github.com/CodeExpertsLearning/pagseguro-front-teste-checkout-transparente.git)
