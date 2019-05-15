@@ -19,7 +19,7 @@ class CheckoutController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
-     * @Route("", methods={"POST"}, name="checkout_index")
+     * @Route("/", methods={"POST"}, name="checkout_index")
      */
     public function indexAction(Request $request)
     {
