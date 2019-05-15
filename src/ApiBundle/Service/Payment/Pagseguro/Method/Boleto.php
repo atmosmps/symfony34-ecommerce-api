@@ -39,7 +39,7 @@ class Boleto extends Method
 
         // Set a reference code for this payment request. It is useful to identify this payment
         // in future notifications.
-        $boleto->setReference("NL - " . $this->order->id); // NL - nexonlab
+        $boleto->setReference("NL - " . $this->order->getId());
 
         //set extra amount
         // $boleto->setExtraAmount(11.5);
