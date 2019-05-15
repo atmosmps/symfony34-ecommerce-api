@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new \Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new \WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new \Nelmio\CorsBundle\NelmioCorsBundle(),
             new AppBundle\AppBundle(),
             new ApiBundle\ApiBundle(),
         ];

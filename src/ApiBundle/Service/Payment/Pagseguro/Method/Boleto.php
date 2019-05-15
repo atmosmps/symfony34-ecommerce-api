@@ -56,7 +56,7 @@ class Boleto extends Method
 
         $boleto->setSender()->setDocument()->withParameters(
             'CPF',
-            'insira um numero de CPF valido'
+            '79507445021'
         );
 
         $boleto->setSender()->setHash($this->hashUser);
