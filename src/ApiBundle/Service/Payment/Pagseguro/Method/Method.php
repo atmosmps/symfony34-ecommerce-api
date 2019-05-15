@@ -5,7 +5,7 @@ abstract class Method
 {
     public $tokenCard;
 
-    public $installments;
+    public $installments; // parcelas
 
     public $hashUser;
 
