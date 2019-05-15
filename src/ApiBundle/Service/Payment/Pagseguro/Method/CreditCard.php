@@ -42,7 +42,7 @@ class CreditCard extends Method
         // If you using SANDBOX you must use an email @sandbox.pagseguro.com.br
         $userName = $this->order->getUser()->getFirstName() . ' - ' . $this->order->getUser()->getLastName();
         $creditCard->setSender()->setName($userName);
-        $creditCard->setSender()->setEmail('email@sandbox.pagseguro.com.br'); // em ambiente de sandbox eu preciso obrigatoriamente passar este email, mas em producao este é o email do usuario comprador.
+        $creditCard->setSender()->setEmail('c22983573204423475097@sandbox.pagseguro.com.br'); // em ambiente de sandbox eu preciso obrigatoriamente passar este email, mas em producao este é o email do usuario comprador.
         $creditCard->setSender()->setPhone()->withParameters(
             11,
             56273440
@@ -87,7 +87,7 @@ class CreditCard extends Method
         // Set the installment quantity and value (could be obtained using the Installments
         // service, that have an example here in \public\getInstallments.php)
         $installment = explode('|', $this->installments);
-        $creditCard->setInstallment()->withParameters($installment[0], $installment[1]);
+        $creditCard->setInstallment()->withParameters($installment[0], $installment[1], 12);
 
         // Set the credit card holder information
         $creditCard->setHolder()->setBirthdate('01/10/1979');
