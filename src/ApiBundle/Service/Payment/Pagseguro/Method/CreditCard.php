@@ -23,7 +23,7 @@ class CreditCard extends Method
 
         // Set a reference code for this payment request. It is useful to identify this payment
         // in future notifications.
-        $creditCard->setReference("NL - " . $this->order->id); // NL - nexonlab
+        $creditCard->setReference("NL - " . $this->order->getId());
 
         // Set the currency
         $creditCard->setCurrency("BRL");
@@ -42,7 +42,7 @@ class CreditCard extends Method
         // If you using SANDBOX you must use an email @sandbox.pagseguro.com.br
         $userName = $this->order->getUser()->getFirstName() . ' - ' . $this->order->getUser()->getLastName();
         $creditCard->setSender()->setName($userName);
-        $creditCard->setSender()->setEmail('email@sandbox.pagseguro.com.br'); // em ambiente de sandbox eu preciso obrigatoriamente passar este email
+        $creditCard->setSender()->setEmail('email@sandbox.pagseguro.com.br'); // em ambiente de sandbox eu preciso obrigatoriamente passar este email, mas em producao este é o email do usuario comprador.
         $creditCard->setSender()->setPhone()->withParameters(
             11,
             56273440
@@ -82,7 +82,7 @@ class CreditCard extends Method
         );
 
         // Set credit card token
-        $creditCard->setToken('2ed34e61b24d4ea8ae872c66a512525c');
+        $creditCard->setToken($this->tokenCard);
 
         // Set the installment quantity and value (could be obtained using the Installments
         // service, that have an example here in \public\getInstallments.php)
@@ -99,7 +99,7 @@ class CreditCard extends Method
 
         $creditCard->setHolder()->setDocument()->withParameters(
             'CPF',
-            'insira um numero de CPF valido'
+            '79507445021'
         );
 
         // Set the Payment Mode for this payment request
